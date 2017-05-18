@@ -210,7 +210,7 @@ namespace rviz
         setStatus(rviz::StatusProperty::Ok, "URDF", "Robot model parserd Ok");
     for (std::map<std::string, urdf::JointSharedPtr >::iterator it = robot_model_->joints_.begin(); it != robot_model_->joints_.end(); it ++ ) {
         urdf::JointSharedPtr joint = it->second;
-	    if ( joint->type == urdf::Joint::REVOLUTE ) {
+        if ( joint->type == urdf::Joint::REVOLUTE || joint->type == urdf::Joint::CONTINUOUS ) {
                 std::string joint_name = it->first;
                 urdf::JointLimitsSharedPtr limit = joint->limits;
                 joints_[joint_name] = createJoint(joint_name);
@@ -305,7 +305,7 @@ namespace rviz
 
 	    const urdf::Joint* joint = robot_model_->getJoint(joint_name).get();
 	    int joint_type = joint->type;
-	    if ( joint_type == urdf::Joint::REVOLUTE )
+	    if ( joint_type == urdf::Joint::REVOLUTE || joint_type == urdf::Joint::CONTINUOUS )
 	    {
 		// we expects that parent_link_name equals to frame_id.
 		std::string parent_link_name = joint->child_link_name;

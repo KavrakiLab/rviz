@@ -32,7 +32,7 @@ namespace rviz
 	// We create the arrow object within the frame node so that we can
 	// set its position and direction relative to its header frame.
 	for (std::map<std::string, urdf::JointSharedPtr >::iterator it = urdf_model_->joints_.begin(); it != urdf_model_->joints_.end(); it ++ ) {
-	    if ( it->second->type == urdf::Joint::REVOLUTE ) {
+	    if ( it->second->type == urdf::Joint::REVOLUTE || it->second->type == urdf::Joint::CONTINUOUS ) {
                 std::string joint_name = it->first;
                 effort_enabled_[joint_name] = true;
             }
@@ -65,11 +65,7 @@ namespace rviz
 	if ( !(i&1) ) f = 1 - f; // if i is even
 	float n = 1 - f;
 
-	if      (i <= 1) color[0] = n, color[1] = 0, color[2] = 1;
-	else if (i == 2) color[0] = 0, color[1] = n, color[2] = 1;
-	else if (i == 3) color[0] = 0, color[1] = 1, color[2] = n;
-	else if (i == 4) color[0] = n, color[1] = 1, color[2] = 0;
-	else if (i >= 5) color[0] = 1, color[1] = n, color[2] = 0;
+	color[0] = n, color[1] = 1, color[2] = 0;
     }
 
     void EffortVisual::setMessage( const sensor_msgs::JointStateConstPtr& msg )
@@ -82,7 +78,7 @@ namespace rviz
 	    double effort = msg->effort[i];
 	    const urdf::Joint* joint = urdf_model_->getJoint(joint_name).get();
 	    int joint_type = joint->type;
-	    if ( joint_type == urdf::Joint::REVOLUTE )
+	    if ( joint_type == urdf::Joint::REVOLUTE || joint_type == urdf::Joint::CONTINUOUS )
 	    {
                 // enable or disable draw
                 if ( effort_circle_.find(joint_name) != effort_circle_.end() &&
