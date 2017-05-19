@@ -3,6 +3,7 @@
 
 #include <sensor_msgs/JointState.h>
 
+
 namespace Ogre
 {
     class Vector3;
@@ -57,6 +58,9 @@ public:
 
     void setFrameEnabled( const std::string joint_name, const bool e );
 
+    // Set the current alpha value to use.
+    void setAlpha( float a );
+
     // Set the color and alpha of the visual, which are user-editable
     // parameters and therefore don't come from the Effort message.
     void setColor( float r, float g, float b, float a );
@@ -82,7 +86,7 @@ private:
     std::map<std::string, Ogre::Vector3> position_;
     std::map<std::string, Ogre::Quaternion> orientation_;
 
-    float width_, scale_;
+    float width_, scale_, alpha_;
 
     // The object for urdf model
     boost::shared_ptr<urdf::Model> urdf_model_;

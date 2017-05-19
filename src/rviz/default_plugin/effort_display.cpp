@@ -142,11 +142,13 @@ namespace rviz
     {
         float width = width_property_->getFloat();
         float scale = scale_property_->getFloat();
+        float alpha = alpha_property_->getFloat();
 
         for( size_t i = 0; i < visuals_.size(); i++ )
             {
                 visuals_[ i ]->setWidth( width );
                 visuals_[ i ]->setScale( scale );
+                visuals_[ i ]->setAlpha( alpha );
             }
     }
 
@@ -345,8 +347,10 @@ namespace rviz
 	// Now set or update the contents of the chosen visual.
         float scale = scale_property_->getFloat();
         float width = width_property_->getFloat();
+        float alpha = alpha_property_->getFloat();
         visual->setWidth( width );
         visual->setScale( scale );
+        visual->setAlpha( alpha );
 	visual->setMessage( msg );
 
         visuals_.push_back(visual);

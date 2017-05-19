@@ -56,16 +56,14 @@ namespace rviz
 
     void EffortVisual::getRainbowColor(float value, Ogre::ColourValue& color)
     {
-	value = std::min(value, 1.0f);
-	value = std::max(value, 0.0f);
+      value = std::min(value, 1.0f);
+      value = std::max(value, 0.0f);
 
-	float h = value * 5.0f + 1.0f;
-	int i = floor(h);
-	float f = h - i;
-	if ( !(i&1) ) f = 1 - f; // if i is even
-	float n = 1 - f;
+      float h = value * 5.0f + 1.0f;
+      float f = h - floor(h);
+      float n = 1 - f;
 
-	color[0] = n, color[1] = 1, color[2] = 0;
+      color[0] = n, color[1] = 1, color[2] = 0, color[3] = alpha_;
     }
 
     void EffortVisual::setMessage( const sensor_msgs::JointStateConstPtr& msg )
@@ -119,7 +117,7 @@ namespace rviz
                 effort_circle_[joint_name]->clear();
                 effort_circle_[joint_name]->setLineWidth(width_);
                 for (int i = 0; i < 30; i++) {
-                    Ogre::Vector3 point = Ogre::Vector3((0.05+effort_value*scale_*0.5)*sin(i*2*M_PI/32), (0.05+effort_value*scale_*0.5)*cos(i*2*M_PI/32), 0);
+                    Ogre::Vector3 point = Ogre::Vector3((0.05+scale_*0.5)*sin(i*2*M_PI/32), (0.05+scale_*0.5)*cos(i*2*M_PI/32), 0);
                     if ( effort < 0 ) point.x = -point.x;
                     effort_circle_[joint_name]->addPoint(orientation_[joint_name] * point + position_[joint_name]);
                 }
@@ -166,6 +164,12 @@ namespace rviz
     {
         scale_ = s;
     }
+
+     void EffortVisual::setAlpha( float a )
+     {
+       alpha_ = a;
+     }
+
 
 } // end namespace rviz
 
