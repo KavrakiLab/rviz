@@ -139,13 +139,19 @@ VisualizationManager::VisualizationManager( RenderPanel* render_panel, WindowMan
   private_->threaded_nh_.setCallbackQueue(&private_->threaded_queue_);
 
   scene_manager_ = ogre_root_->createSceneManager( Ogre::ST_GENERIC );
+  scene_manager_->setAmbientLight(Ogre::ColourValue( 0.2f, 0.2f, 0.2f ));
 
   rviz::RenderSystem::RenderSystem::get()->prepareOverlays(scene_manager_);
 
   directional_light_ = scene_manager_->createLight( "MainDirectional" );
   directional_light_->setType( Ogre::Light::LT_DIRECTIONAL );
   directional_light_->setDirection( Ogre::Vector3( -1, 0, -1 ) );
-  directional_light_->setDiffuseColour( Ogre::ColourValue( 1.0f, 1.0f, 1.0f ) );
+  directional_light_->setDiffuseColour( Ogre::ColourValue( 0.5f, 0.5f, 0.5f ) );
+
+  overhead_light_ = scene_manager_->createLight( "OverheadDirectional" );
+  overhead_light_->setType( Ogre::Light::LT_DIRECTIONAL );
+  overhead_light_->setDirection( Ogre::Vector3( 0, 0, -1 ) );
+  overhead_light_->setDiffuseColour( Ogre::ColourValue( 0.9f, 0.9f, 0.9f ) );
 
   root_display_group_ = new DisplayGroup();
   root_display_group_->setName( "root" );
@@ -525,6 +531,7 @@ void VisualizationManager::updateFps()
 void VisualizationManager::updateDefaultLightVisible()
 {
   directional_light_->setVisible(default_light_enabled_property_->getBool());
+  overhead_light_->setVisible(default_light_enabled_property_->getBool());
 }
 
 void VisualizationManager::handleMouseEvent( const ViewportMouseEvent& vme )

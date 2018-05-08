@@ -407,6 +407,7 @@ private:
   BitAllocator visibility_bit_allocator_;
   QString help_path_;
   Ogre::Light* directional_light_;
+  Ogre::Light* overhead_light_;
 };
 
 }

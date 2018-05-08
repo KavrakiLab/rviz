@@ -520,6 +520,9 @@ Ogre::MaterialPtr RobotLink::getMaterialForLink( const urdf::LinkConstSharedPtr&
     tex_unit->setTextureName(filename);
   }
 
+  mat->getTechnique(0)->setDiffuse(Ogre::ColourValue(1.0f, 1.0f, 1.0f, 1.0f));
+  mat->setReceiveShadows(false);
+
   return mat;
 }
 
